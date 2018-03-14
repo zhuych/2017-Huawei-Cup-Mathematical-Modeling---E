@@ -1,0 +1,276 @@
+function [time,replace0,replacenum,replacenumf] = strategy3( position )
+%UNTITLED6 此处显示有关此函数的摘要
+%   此处显示详细说明
+% replace0为三维向量，表示新加入C车的暴露时间；replacenum表示新加入C车的隐蔽节点编号；replacenumf表示新加入C车所去的发射节点编号
+extra=[72 74 76 81 82 83];
+coord=xlsread('data.xls');
+S=[1  1  1  1  2  2  2  2   3  3   3   4   4   4   5  5  5   5   5   6  6   6   7   7   8  8  8  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69 70 70 70 70  71 71 71 71  71  71  72 72 72 72  72  73 73 73  73  74 74 74  74  75 75 75  75  76 76 76  76  77 77 77 77 77  78 78 78 78  79 79 79  80 80 80  81 81 81 81  82 82 82 82  83 83 83 83  84 84 84 84  85 85 86 86 86 86  87 87 87 87  88 88 89 89 89 89 89 89 90 90 90 90 90 91 91 91 91 92 92 92 92 92 93 93 93 93 93 93 94 94 94 94 94 95 95 95 95 95 95 96 96 96 96 96 96 97 97 97 97 97 98 98 98 98 98 99 99 99 99 99 100 100 100 100 100 100 101 101 101 101 101 102 102 102 102 102 103 103 103 103 104 104 104 104 105 105 105 105 105 106 106 106 106 107 107 107 108 108 108 108 108 109 109 109 110 110 110 110 111 111 112 112 112 112 112 112 113 113 113 113 113 114 114 114 114 115 115 115 115 116 116 116 116 116 117 117 117 117 118 118 118 118 118 119 119 120 120 120 120 121 121 121 121 121 122 122 122 123 123 123 123 124 124 124 124 125 125 125 126 126 126 126 127 127 127 127 127 128 128 128 128 129 129 129 129 130 130 130 130];
+E=[5  77 78 79 70 71 80 100 72 116 118 119 120 122 1  77 120 125 129 75 105 106 109 112 84 93 94 96 89 89 89 90 90 90 91 92 92 93 93 94 94 95 95 95 95 96 96 97 98 98 99 100 101 102 103 103 104 104 105 105 105 106 106 107 108 108 108 109 112 112 114 115 115 116 116 117 117 118 121 124 124 127 128 128 129 129 130 130 70 2  69 71 115 2  70 72 100 101 116 71 73 3  101 118 72 74 102 117 73 75 104 119 74 76  6  120 75 77 110 120 1  76 78 5  113 1  77 79 113 1  78 114 2  81 100 80 82 89 100 81 83 89 103 82 84 93 105 83 85 8  107 84 86 85 87 97 109 86 88 99 111 87 99 9  10 11 81 82 90 12 13 14 89 91 15 90 92 93 16 17 91 93 94 18 19 8  83 91 92 8  20 21 92 95 22 23 24 25 94 96 26 27 8  95 97 98 28 86 96 98 99 29 30 96 97 99 31 87 88 97 98 2   32  71  80  81  101 33  71  72  100 102 34  73  101 103 104 35  36  82  102 37  38  74  102 6   39  40  41  83  6   42  43  110 44  84  108 45  46  47  107 110 7   48  86  76  106 108 113 87  112 7   49  50  111 113 114 77  78  110 112 114 51  79  112 113 52  53  70  116 54  55  3   71  115 56  57  73  118 3   58  72  117 121 4   74  4   5   75  76  59  118 123 124 127 4   123 125 121 122 126 127 60  61  121 128 5   122 126 123 125 127 129 121 123 126 130 62  63  64  124 130 5   65  66  126 67  68  127 128];
+for i=1:length(S)
+    distance(i)=((coord(S(i),1)-coord(E(i),1))^2+(coord(S(i),2)-coord(E(i),2))^2)^0.5;
+end
+G=sparse(S,E,distance);
+timeA=distance/45;
+%主干线时间修正
+timeA(89)=distance(89)/70;timeA(91)=distance(91)/70;timeA(92)=distance(92)/70;timeA(95)=distance(95)/70;timeA(96)=distance(96)/70;timeA(100)=distance(100)/70;timeA(101)=distance(101)/70;timeA(105)=distance(105)/70;timeA(106)=distance(106)/70;timeA(109)=distance(109)/70;timeA(110)=distance(110)/70;timeA(113)=distance(113)/70;timeA(114)=distance(114)/70;timeA(117)=distance(117)/70;timeA(118)=distance(118)/70;timeA(122)=distance(122)/70;timeA(123)=distance(123)/70;timeA(127)=distance(127)/70;timeA(128)=distance(128)/70;timeA(131)=distance(131)/70;
+timeA(134)=distance(134)/70;timeA(136)=distance(136)/70;timeA(137)=distance(137)/70;timeA(140)=distance(140)/70;timeA(141)=distance(141)/70;timeA(144)=distance(144)/70;timeA(145)=distance(145)/70;timeA(148)=distance(148)/70;timeA(149)=distance(149)/70;timeA(152)=distance(152)/70;timeA(153)=distance(153)/70;timeA(154)=distance(154)/70;timeA(155)=distance(155)/70;timeA(158)=distance(158)/70;timeA(159)=distance(159)/70;timeA(162)=distance(162)/70;
+timeB=distance/35;
+timeB(89)=distance(89)/60;timeB(91)=distance(91)/60;timeB(92)=distance(92)/60;timeB(95)=distance(95)/60;timeB(96)=distance(96)/60;timeB(100)=distance(100)/60;timeB(101)=distance(101)/60;timeB(105)=distance(105)/60;timeB(106)=distance(106)/60;timeB(109)=distance(109)/60;timeB(110)=distance(110)/60;timeB(113)=distance(113)/60;timeB(114)=distance(114)/60;timeB(117)=distance(117)/60;timeB(118)=distance(118)/60;timeB(122)=distance(122)/60;timeB(123)=distance(123)/60;timeB(127)=distance(127)/60;timeB(128)=distance(128)/60;timeB(131)=distance(131)/60;
+timeB(134)=distance(134)/60;timeB(136)=distance(136)/60;timeB(137)=distance(137)/60;timeB(140)=distance(140)/60;timeB(141)=distance(141)/60;timeB(144)=distance(144)/60;timeB(145)=distance(145)/60;timeB(148)=distance(148)/60;timeB(149)=distance(149)/60;timeB(152)=distance(152)/60;timeB(153)=distance(153)/60;timeB(154)=distance(154)/60;timeB(155)=distance(155)/60;timeB(158)=distance(158)/60;timeB(159)=distance(159)/60;timeB(162)=distance(162)/60;
+timeC=distance/30;
+timeC(89)=distance(89)/50;timeC(91)=distance(91)/50;timeC(92)=distance(92)/50;timeC(95)=distance(95)/50;timeC(96)=distance(96)/50;timeC(100)=distance(100)/50;timeC(101)=distance(101)/50;timeC(105)=distance(105)/50;timeC(106)=distance(106)/50;timeC(109)=distance(109)/50;timeC(110)=distance(110)/50;timeC(113)=distance(113)/50;timeC(114)=distance(114)/50;timeC(117)=distance(117)/50;timeC(118)=distance(118)/50;timeC(122)=distance(122)/50;timeC(123)=distance(123)/50;timeC(127)=distance(127)/50;timeC(128)=distance(128)/50;timeC(131)=distance(131)/50;
+timeC(134)=distance(134)/50;timeC(136)=distance(136)/50;timeC(137)=distance(137)/50;timeC(140)=distance(140)/50;timeC(141)=distance(141)/50;timeC(144)=distance(144)/50;timeC(145)=distance(145)/50;timeC(148)=distance(148)/50;timeC(149)=distance(149)/50;timeC(152)=distance(152)/50;timeC(153)=distance(153)/50;timeC(154)=distance(154)/50;timeC(155)=distance(155)/50;timeC(158)=distance(158)/50;timeC(159)=distance(159)/50;timeC(162)=distance(162)/50;
+GA=sparse(S,E,timeA);
+GB=sparse(S,E,timeB);
+GC=sparse(S,E,timeC);
+for i=1:3
+    Dist(i)=graphshortestpath(GA,1,position(i),'Method','Dijkstra');
+end
+for i=4:6
+    Dist(i)=graphshortestpath(GB,1,position(i),'Method','Dijkstra');
+end
+for i=7:12
+    Dist(i)=graphshortestpath(GC,1,position(i),'Method','Dijkstra');
+end
+for i=13:15
+    Dist(i)=graphshortestpath(GA,2,position(i),'Method','Dijkstra');
+end
+for i=16:18
+    Dist(i)=graphshortestpath(GB,2,position(i),'Method','Dijkstra');
+end
+for i=19:24
+    Dist(i)=graphshortestpath(GC,2,position(i),'Method','Dijkstra');
+end
+for j=1:6
+for i=1:3
+    Dist0(j,i)=graphshortestpath(GA,j+2,position(i),'Method','Dijkstra');
+    Dist1(j,i)=graphshortestpath(GA,j+2,position(i+24),'Method','Dijkstra');
+    Dist2(j,i)=Dist0(j,i)+Dist1(j,i);
+end
+for i=4:6
+    Dist0(j,i)=graphshortestpath(GB,j+2,position(i),'Method','Dijkstra');
+    Dist1(j,i)=graphshortestpath(GB,j+2,position(i+24),'Method','Dijkstra');
+    Dist2(j,i)=Dist0(j,i)+Dist1(j,i);
+end
+for i=7:12
+    Dist0(j,i)=graphshortestpath(GC,j+2,position(i),'Method','Dijkstra');
+    Dist1(j,i)=graphshortestpath(GC,j+2,position(i+24),'Method','Dijkstra');
+    Dist2(j,i)=Dist0(j,i)+Dist1(j,i);
+end
+for i=13:15
+    Dist0(j,i)=graphshortestpath(GA,j+2,position(i),'Method','Dijkstra');
+    Dist1(j,i)=graphshortestpath(GA,j+2,position(i+24),'Method','Dijkstra');
+    Dist2(j,i)=Dist0(j,i)+Dist1(j,i);
+end
+for i=16:18
+    Dist0(j,i)=graphshortestpath(GB,j+2,position(i),'Method','Dijkstra');
+    Dist1(j,i)=graphshortestpath(GB,j+2,position(i+24),'Method','Dijkstra');
+    Dist2(j,i)=Dist0(j,i)+Dist1(j,i);
+end
+for i=19:24
+    Dist0(j,i)=graphshortestpath(GC,j+2,position(i),'Method','Dijkstra');
+    Dist1(j,i)=graphshortestpath(GC,j+2,position(i+24),'Method','Dijkstra');
+    Dist2(j,i)=Dist0(j,i)+Dist1(j,i);
+end
+end
+time1=sum(Dist(1:24));
+numC=[7:12 19:24];
+DistC=[Dist2(:,7:12),Dist2(:,19:24)];
+[Ctime,Cnum]=min(DistC);
+[Ctime0,Cnum0]=sort(Ctime);
+position0=position;
+position0(numC(Cnum0(10:12))+24)=[]; %position0表示已使用发射节点
+numC(Cnum0(10:12))=[];%去掉编号numC(Cnum0(10:12))对应的三辆C车
+num=[1:6 13:18 numC];  %剩余21辆车顺序对应编号
+Dist2=[Dist2(:,1:6),Dist2(:,13:18),Dist2(:,numC)];
+[time0,Znum]=min(Dist2);
+Z1=num(find(Znum==1));
+Z2=num(find(Znum==2));
+Z3=num(find(Znum==3));
+Z4=num(find(Znum==4));
+Z5=num(find(Znum==5));
+Z6=num(find(Znum==6));
+%计算新加入三辆C车暴露时间
+restnum=setdiff(9:68,position0);  %剩余发射节点，共15个
+for i=1:length(extra)
+    for j=1:length(restnum)
+        replacetime(i,j)=graphshortestpath(GC,extra(i),restnum(j),'Method','Dijkstra');
+    end
+end
+[replacetimemin,extranum]=min(replacetime); %求出每个发射节点对应的最小暴露时间,extra(extranum)表示对应的隐蔽节点编号
+for i=1:length(restnum)
+    replacetime(extranum(i),i)=inf;
+end
+[replacetimesecmin,extrasecnum]=min(replacetime);%求出每个发射节点对应的次小暴露时间
+[replacetimemin0,restminnum]=sort(replacetimemin);%restnum(restminnum)表示对应的发射节点编号，extra(extranum(restminnum))表示对应的隐蔽节点编号
+if (extranum(restminnum(1))==extranum(restminnum(2)) && extranum(restminnum(2))==extranum(restminnum(3)) )
+    %若最小三个暴露时间所对应隐蔽节点均相同，则最小三个隐蔽节点-发射节点对中须选2个；不一定是前两个。
+    %将其余出现该隐蔽节点的方案全部去掉（时间置成inf，不予考虑）
+    for i=4:length(restminnum)
+        if extranum(restminnum(i))==extranum(restminnum(1))
+            replacetimemin0(i)=inf;
+        end
+    end
+    [replacetimemin1,restminnum1]=sort(replacetimemin0);   %重新排序，extra(extranum(restminnum(restminnum1)))表示对应的隐蔽节点编号
+    selectreplacetime=replacetimemin1(4);
+    selectreplacenum=extra(extranum(restminnum(restminnum1(4))));
+    selectreplacenumf=restnum(restminnum(restminnum1(4)));
+    for i=1:length(extrasecnum)
+        if extrasecnum(i)==extranum(restminnum(1))
+            replacetimesecmin(i)=inf;
+        end
+    end
+    %三种方案
+    replacetimesecmin1=replacetimesecmin;
+    replacetimesecmin2=replacetimesecmin;
+    replacetimesecmin3=replacetimesecmin;
+    for i=1:length(replacetimesecmin1)
+        if (i==restminnum(1) || i==restminnum(2) )
+           replacetimesecmin1(i)=inf;
+        end
+    end
+    [selecttime1,select1]=min(replacetimesecmin1);
+    selectnumf1=restnum(select1);    %方案一发射节点编号
+    for i=1:length(replacetimesecmin2)
+        if (i==restminnum(1) || i==restminnum(3) )
+           replacetimesecmin2(i)=inf;
+        end
+    end
+    [selecttime2,select2]=min(replacetimesecmin2);
+    selectnumf2=restnum(select2);    %方案二发射节点编号
+    for i=1:length(replacetimesecmin3)
+        if (i==restminnum(2) || i==restminnum(3) )
+           replacetimesecmin3(i)=inf;
+        end
+    end
+    [selecttime3,select3]=min(replacetimesecmin3);
+    selectnumf3=restnum(select3);    %方案三发射节点编号
+    method1=replacetimemin0(1)+replacetimemin0(2)+min(selecttime1,selectreplacetime);
+    method2=replacetimemin0(1)+replacetimemin0(3)+min(selecttime2,selectreplacetime);
+    method3=replacetimemin0(2)+replacetimemin0(3)+min(selecttime3,selectreplacetime);
+    if (method1<=method2 && method1<=method3)
+        replace0(1)=replacetimemin0(1);
+        replace0(2)=replacetimemin0(2);
+        replacenum(1)=extra(extranum(restminnum(1)));
+        replacenum(2)=extra(extranum(restminnum(2)));
+        replacenumf(1)=restnum(restminnum(1));
+        replacenumf(2)=restnum(restminnum(2));
+        if selecttime1<selectreplacetime
+            replace0(3)=selecttime1;
+            replacenum(3)=extra(extrasecnum(select1));
+            replacenumf(3)=selectnumf1;
+        else
+            replace0(3)=selectreplacetime;
+            replacenum(3)=selectreplacenum;
+            replacenumf(3)=selectreplacenumf;
+        end
+    elseif (method2<=method1 && method2<=method3)
+        replace0(1)=replacetimemin0(1);
+        replace0(2)=replacetimemin0(3);
+        replacenum(1)=extra(extranum(restminnum(1)));
+        replacenum(2)=extra(extranum(restminnum(3)));
+        replacenumf(1)=restnum(restminnum(1));
+        replacenumf(2)=restnum(restminnum(3));
+        if selecttime2<selectreplacetime
+            replace0(3)=selecttime2;
+            replacenum(3)=extra(extrasecnum(select2));
+            replacenumf(3)=selectnumf2;
+        else
+            replace0(3)=selectreplacetime;
+            replacenum(3)=selectreplacenum;
+            replacenumf(3)=selectreplacenumf;
+        end
+    else
+        replace0(1)=replacetimemin0(2);
+        replace0(2)=replacetimemin0(3);
+        replacenum(1)=extra(extranum(restminnum(2)));
+        replacenum(2)=extra(extranum(restminnum(3)));
+        replacenumf(1)=restnum(restminnum(2));
+        replacenumf(2)=restnum(restminnum(3));
+        if selecttime3<selectreplacetime
+            replace0(3)=selecttime3;
+            replacenum(3)=extra(extrasecnum(select3));
+            replacenumf(3)=selectnumf3;
+        else
+            replace0(3)=selectreplacetime;
+            replacenum(3)=selectreplacenum;
+            replacenumf(3)=selectreplacenumf;
+        end
+    end        
+else
+    replace0(1:3)=replacetimemin0(1:3); 
+    replacenum=extra(extranum(restminnum(1:3)));   %最优方案隐蔽节点编号
+    replacenumf=restnum(restminnum(1:3));         %最优方案隐蔽节点对应发射节点编号
+end
+time00=[time0+1/6 replace0];
+timemax=max(time00);
+time2=24*timemax;
+if (length(Z1)==1)
+    time2=time2-timemax+time0(Z1(1)); 
+elseif(length(Z1)>=2)
+    dist0=sort(Dist0(1,Z1));
+    dist1=sort(Dist1(1,Z1));
+    time2=time2-2*timemax+dist0(1)+dist0(2)+dist1(1)+dist1(2);
+    for i=3:length(Z1)
+        time2=time2+max(dist0(i)+dist1(length(Z1)+3-i)-timemax,0);
+    end
+else
+end
+if (length(Z2)==1)
+    time2=time2-timemax+time0(Z2(1)); 
+elseif(length(Z2)>=2)
+    dist0=sort(Dist0(2,Z2));
+    dist1=sort(Dist1(2,Z2));
+    time2=time2-2*timemax+dist0(1)+dist0(2)+dist1(1)+dist1(2);
+    for i=3:length(Z2)
+        time2=time2+max(dist0(i)+dist1(length(Z2)+3-i)-timemax,0);
+    end
+else
+end
+if (length(Z3)==1)
+    time2=time2-timemax+time0(Z3(1)); 
+elseif(length(Z3)>=2)
+    dist0=sort(Dist0(3,Z3));
+    dist1=sort(Dist1(3,Z3));
+    time2=time2-2*timemax+dist0(1)+dist0(2)+dist1(1)+dist1(2);
+    for i=3:length(Z3)
+        time2=time2+max(dist0(i)+dist1(length(Z3)+3-i)-timemax,0);
+    end
+else
+end
+if (length(Z4)==1)
+    time2=time2-timemax+time0(Z4(1)); 
+elseif(length(Z4)>=2)
+    dist0=sort(Dist0(4,Z4));
+    dist1=sort(Dist1(4,Z4));
+    time2=time2-2*timemax+dist0(1)+dist0(2)+dist1(1)+dist1(2);
+    for i=3:length(Z4)
+        time2=time2+max(dist0(i)+dist1(length(Z4)+3-i)-timemax,0);
+    end
+else
+end
+if (length(Z5)==1)
+    time2=time2-timemax+time0(Z5(1)); 
+elseif(length(Z5)>=2)
+    dist0=sort(Dist0(5,Z5));
+    dist1=sort(Dist1(5,Z5));
+    time2=time2-2*timemax+dist0(1)+dist0(2)+dist1(1)+dist1(2);
+    for i=3:length(Z5)
+        time2=time2+max(dist0(i)+dist1(length(Z5)+3-i)-timemax,0);
+    end
+else
+end
+if (length(Z6)==1)
+    time2=time2-timemax+time0(Z6(1)); 
+elseif(length(Z6)>=2)
+    dist0=sort(Dist0(6,Z6));
+    dist1=sort(Dist1(6,Z6));
+    time2=time2-2*timemax+dist0(1)+dist0(2)+dist1(1)+dist1(2);
+    for i=3:length(Z6)
+        time2=time2+max(dist0(i)+dist1(length(Z6)+3-i)-timemax,0);
+    end
+else
+end
+time=time1+time2;
+end
+
